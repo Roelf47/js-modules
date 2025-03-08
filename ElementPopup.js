@@ -17,7 +17,7 @@ export class ElementPopup{
         const df = ElementPopup.#template.content.cloneNode(true);
 
         /** @type {HTMLDivElement} */
-        const popup = df.querySelectorAll(".tPopup");
+        const popup = df.querySelector(".tPopup");
 
         // Appent popup to parent if given else to body
         if(obj.parent){
@@ -33,8 +33,8 @@ export class ElementPopup{
         })
 
         /** @type {HTMLDivElement} */
-        popupContainer = popup.querySelector(".tPopupContainer");
-        popupContainer.append(obj.element);
+        const elementContainer = popup.querySelector(".tElementContainer");
+        elementContainer.append(obj.element);
     }
 
 
