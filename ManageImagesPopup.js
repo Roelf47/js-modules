@@ -6,6 +6,7 @@ export class ManageImagesPopup{
      * @param {Object[]} obj.images
      * @param {String} obj[].images.url
      * @param {String} obj[].images.name
+     * @param {(imageUrl: String) => void} obj.imagesFunc
      */
     constructor(obj){
         /** @type {DocumentFragment} */
@@ -30,6 +31,9 @@ export class ManageImagesPopup{
 
             imageContainer.querySelector("img").src = imageData["url"];
             imageContainer.querySelector(".t-image-name").innerText = imageData["name"];
+            imageContainer.querySelector("t-delete-button").addEventListener("click", async ()=>{
+                obj.imagesFunc(imageData["url"]);
+            })
         }
 
         
