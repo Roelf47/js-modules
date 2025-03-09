@@ -4,39 +4,61 @@ export class ManageImagesPopup{
      * @param {Object} obj 
      * @param {HTMLElement} obj.parent
      * @param {Object[]} obj.images
+     * @param {Number} obj[].images.id
      * @param {String} obj[].images.url
      * @param {String} obj[].images.name
      * @param {(imageUrl: String) => void} obj.imagesFunc
      */
     constructor(obj){
-        /** @type {DocumentFragment} */
-        const df = ManageImagesPopup.#template.content.cloneNode(true);
-
-        const popup = df.querySelector(".t-popup");
-
-        if(obj.parent){
-            obj.parent.append(df);
-        }else{
-            document.body.append(df);
-        }
-
-        const manageImageContainer = popup.querySelector(".t-manage-image-container");
-
-        for(const imageData of obj.images){
+        return new Promise((resolve, reject)=>{
             /** @type {DocumentFragment} */
-            const imageDf = ManageImagesPopup.#imageTemplate.content.cloneNode(true);
+            const df = ManageImagesPopup.#template.content.cloneNode(true);
 
-            const imageContainer = imageDf.querySelector(".t-image-container");
-            manageImageContainer.append(imageContainer);
+            const popup = df.querySelector(".t-popup");
 
-            imageContainer.querySelector("img").src = imageData["url"];
-            imageContainer.querySelector(".t-image-name").innerText = imageData["name"];
-            imageContainer.querySelector("t-delete-button").addEventListener("click", async ()=>{
-                obj.imagesFunc(imageData["url"]);
-            })
-        }
+            if(obj.parent){
+                obj.parent.append(df);
+            }else{
+                document.body.append(df);
+            }
 
+            const manageImageContainer = popup.querySelector(".t-manage-image-container");
+
+            for(const imageData of obj.images){
+                /** @type {DocumentFragment} */
+                const imageDf = ManageImagesPopup.#imageTemplate.content.cloneNode(true);
+
+                const imageContainer = imageDf.querySelector(".t-image-container");
+                imageContainer.setAttribute("id", imageData["id"]);
+                manageImageContainer.append(imageContainer);
+
+                imageContainer.addEventListener("click", ()=>{
+                    manageImageContainer.querySelectorAll("[selected]").forEach(el=>{
+                        el.removeAttribute("selected");
+                    })
+                    imageContainer.setAttribute("selected", true);
+                })
+
+                imageContainer.querySelector("img").src = imageData["url"];
+                imageContainer.querySelector(".t-image-name").innerText = imageData["name"];
+                imageContainer.querySelector("t-delete-button").addEventListener("click", async ()=>{
+                    obj.imagesFunc(imageData["id"]);
+                })
+            }
+
+            /** @type {HTMLButtonElement} */
+            const selectButton = manageImageContainer.querySelector(".t-select-button");
+            selectButton.addEventListener("click", ()=>{
+                const selectedImage = manageImageContainer.querySelector(`.t-image-container[selected]`)
+                resolve(selectedImage.getAttribute("id"));
+            });
         
+            /** @type {HTMLButtonElement} */
+            const closeButton = manageImageContainer.querySelector(".t-close-button");
+            closeButton.addEventListener("click", ()=>{
+                popup.remove();
+            })
+        })
     }
 
     static #template = document.createElement("template");
