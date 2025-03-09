@@ -41,7 +41,7 @@ export class ManageImagesPopup{
 
                 imageContainer.querySelector("img").src = imageData["url"];
                 imageContainer.querySelector(".t-image-name").innerText = imageData["name"];
-                imageContainer.querySelector("t-delete-button").addEventListener("click", async ()=>{
+                imageContainer.querySelector(".t-delete-button").addEventListener("click", async ()=>{
                     obj.imagesFunc(imageData["id"]);
                 })
             }
