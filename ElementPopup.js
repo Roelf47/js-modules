@@ -17,7 +17,7 @@ export class ElementPopup{
         const df = ElementPopup.#template.content.cloneNode(true);
 
         /** @type {HTMLDivElement} */
-        const popup = df.querySelector(".tPopup");
+        const popup = df.querySelector(".t-popup");
 
         // Appent popup to parent if given else to body
         if(obj.parent){
@@ -27,33 +27,33 @@ export class ElementPopup{
         }
 
         /** @type {HTMLDivElement} */
-        const closePopup = popup.querySelector(".tClosePopup");
+        const closePopup = popup.querySelector(".t-close-popup");
         closePopup.addEventListener("click", ()=>{
             popup.remove();
         })
 
         /** @type {HTMLDivElement} */
-        const elementContainer = popup.querySelector(".tElementContainer");
+        const elementContainer = popup.querySelector(".t-element-container");
         elementContainer.append(obj.element);
     }
 
 
     static #template = document.createElement("template");
     static #template_innerHTML = this.#template.innerHTML = /*HTML*/ `
-        <div class="tPopup">
+        <div class="t-popup">
             <style>
-                .tElementContainer{
+                .t-element-container{
                     position: relative;
                 }
-                .tClosePopup{
+                .t-close-popup{
                     position: absolute;
                     top: 0;
                     right: 1em;
                 }
             </style>
-            <div class="tElementContainer">
-                <div class="tClosePopup">x</div>
-                <div class="tPopupContainer></div>
+            <div class="t-element-container">
+                <div class="t-close-popup">x</div>
+                <div class="t-popup-container></div>
             </div>
         </div>
     `;
