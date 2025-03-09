@@ -29,7 +29,17 @@ export class ManageImagesPopup{
 
             const manageImageContainer = popup.querySelector(".t-manage-image-container");
 
+            if(!obj.images){
+                throw new Error("No images given");
+            }
+
             for(const imageData of obj.images){
+                if(!imageData.id){
+                    throw new Error("All images requires an id");
+                }
+                if(!imageData.url){
+                    throw new Error("All images requires a url");
+                }
                 /** @type {DocumentFragment} */
                 const imageDf = ManageImagesPopup.#imageTemplate.content.cloneNode(true);
 
