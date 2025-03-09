@@ -1,5 +1,9 @@
 export class ManageImagesPopup{
     /**
+     * ManageImagesPopup is to manage a list of images.
+     * It returns a Promise with the image id for the selected image.
+     * A custom func callback can be given to manage how to delete a image, it
+     * takes the id of the image as a parameter.
      * 
      * @param {Object} obj 
      * @param {HTMLElement} obj.parent
@@ -7,7 +11,8 @@ export class ManageImagesPopup{
      * @param {Number} obj[].images.id
      * @param {String} obj[].images.url
      * @param {String} obj[].images.name
-     * @param {(imageUrl: String) => void} obj.imagesFunc
+     * @param {(imageId: Number) => void} obj.imagesFunc
+     * @returns {Promise.<Number>}
      */
     constructor(obj){
         return new Promise((resolve, reject)=>{
