@@ -5,11 +5,11 @@ export class ElementPopup{
      * the user to give an HTMLElement to attach and display with a close button.
      * 
      * @param {Object} obj 
-     * @param {HTMLElement} obj.element Element to append to popup
+     * @param {HTMLElement|DocumentFragment} obj.element Element to append to popup
      * @param {HTMLElement} obj.parent Element to append popup to. Defaults to document.body
      */
     constructor(obj){
-        if(!obj.element || !(obj.element instanceof HTMLElement)){
+        if(!obj.element || !(obj.element instanceof HTMLElement || obj.element instanceof DocumentFragment)){
             throw new Error("No HTMLElement was given");
         }
 
