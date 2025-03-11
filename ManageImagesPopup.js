@@ -28,6 +28,7 @@ export class ManageImagesPopup{
             }
 
             const manageImageContainer = popup.querySelector(".t-manage-image-container");
+            const imagesContainer = popup.querySelector(".t-images-container");
 
             if(!obj.images){
                 throw new Error("No images given");
@@ -45,7 +46,7 @@ export class ManageImagesPopup{
 
                 const imageContainer = imageDf.querySelector(".t-image-container");
                 imageContainer.setAttribute("id", imageData["id"]);
-                manageImageContainer.append(imageContainer);
+                imagesContainer.append(imageContainer);
 
                 imageContainer.addEventListener("click", ()=>{
                     manageImageContainer.querySelectorAll("[selected]").forEach(el=>{
