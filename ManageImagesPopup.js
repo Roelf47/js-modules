@@ -66,6 +66,7 @@ export class ManageImagesPopup{
             const selectButton = manageImageContainer.querySelector(".t-select-button");
             selectButton.addEventListener("click", ()=>{
                 const selectedImage = manageImageContainer.querySelector(`.t-image-container[selected]`)
+                popup.remove();
                 resolve(selectedImage.getAttribute("id"));
             });
         
