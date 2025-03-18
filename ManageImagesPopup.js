@@ -7,10 +7,7 @@ export class ManageImagesPopup{
      * 
      * @param {Object} obj 
      * @param {HTMLElement} obj.parent
-     * @param {Object[]} obj.images
-     * @param {Number} obj[].images.id
-     * @param {String} obj[].images.url
-     * @param {String} obj[].images.name
+     * @param {Array} obj.images
      * @param {(imageId: Number) => void} obj.imagesFunc
      * @returns {Promise.<Number>}
      */
@@ -34,18 +31,14 @@ export class ManageImagesPopup{
                 throw new Error("No images given");
             }
 
+            let id = 0;
             for(const imageData of obj.images){
-                if(!imageData.id){
-                    throw new Error("All images requires an id");
-                }
-                if(!imageData.url){
-                    throw new Error("All images requires a url");
-                }
                 /** @type {DocumentFragment} */
                 const imageDf = ManageImagesPopup.#imageTemplate.content.cloneNode(true);
 
                 const imageContainer = imageDf.querySelector(".t-image-container");
-                imageContainer.setAttribute("id", imageData["id"]);
+                imageContainer.setAttribute("id", id);
+                imageContainer.setAttribute("name", imageData["name"]);
                 imagesContainer.append(imageContainer);
 
                 imageContainer.addEventListener("click", ()=>{
@@ -58,7 +51,7 @@ export class ManageImagesPopup{
                 imageContainer.querySelector("img").src = imageData["url"];
                 imageContainer.querySelector(".t-image-name").innerText = imageData["name"];
                 imageContainer.querySelector(".t-delete-button").addEventListener("click", async ()=>{
-                    obj.imagesFunc(imageData["id"]);
+                    obj.imagesFunc(id);
                 })
             }
 
@@ -67,7 +60,7 @@ export class ManageImagesPopup{
             selectButton.addEventListener("click", ()=>{
                 const selectedImage = manageImageContainer.querySelector(`.t-image-container[selected]`)
                 popup.remove();
-                resolve(selectedImage.getAttribute("id"));
+                resolve(selectedImage.getAttribute("name"));
             });
         
             /** @type {HTMLButtonElement} */
